@@ -24,8 +24,8 @@ namespace LifitShop.Areas.Admin.Controllers
         // GET: Admin/Categories
         public async Task<IActionResult> Index()
         {
-            var categories = await _categoryServise.GetCategory();  // یا متد سرویس که داده شامل Include داره
-            return View(categories);
+           
+            return View(await _categoryServise.GetCategory());
         }
 
         // GET: Admin/Categories/Details/5
@@ -37,7 +37,7 @@ namespace LifitShop.Areas.Admin.Controllers
             }
 
             var categories = await _categoryServise.GetCategoryById(id.Value);
-               
+                
             if (categories == null)
             {
                 return NotFound();
@@ -47,9 +47,11 @@ namespace LifitShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/Categories/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            ViewData["ParentCategoryId"] = new SelectList(
+                await _categoryServise.GetCategory(),
+                "CategoryId", "CategoryName");
             return View();
         }
 
@@ -62,11 +64,10 @@ namespace LifitShop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(categories);
-                await _context.SaveChangesAsync();
+                await _categoryServise.CrateCategory(categories);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", categories.ParentCategoryId);
+            ViewData["ParentCategoryId"] = new SelectList(await _categoryServise.GetCategory(), "CategoryId", "CategoryName", categories?.ParentCategoryId);
             return View(categories);
         }
 
@@ -78,12 +79,12 @@ namespace LifitShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categories = await _context.Categories.FindAsync(id);
+            var categories = await _categoryServise.GetCategoryById(id.Value);
             if (categories == null)
             {
                 return NotFound();
             }
-            ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", categories.ParentCategoryId);
+            ViewData["ParentCategoryId"] = new SelectList(await _categoryServise.GetCategory(), "CategoryId", "CategoryName", categories?.ParentCategoryId);
             return View(categories);
         }
 
@@ -103,23 +104,15 @@ namespace LifitShop.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(categories);
-                    await _context.SaveChangesAsync();
+                    await _categoryServise.UpdateCategory(categories);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoriesExists(categories.CategoryId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                  
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", categories.ParentCategoryId);
+            ViewData["ParentCategoryId"] = new SelectList(await _categoryServise.GetCategory(), "CategoryId", "CategoryName", categories.ParentCategoryId);
             return View(categories);
         }
 
@@ -131,9 +124,8 @@ namespace LifitShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categories = await _context.Categories
-                .Include(c => c.ParentCategory)
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            var categories = await _categoryServise.GetCategoryById(id.Value);
+              
             if (categories == null)
             {
                 return NotFound();
@@ -147,19 +139,12 @@ namespace LifitShop.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categories = await _context.Categories.FindAsync(id);
-            if (categories != null)
-            {
-                _context.Categories.Remove(categories);
-            }
-
-            await _context.SaveChangesAsync();
+            var categories = await _categoryServise.GetCategoryById(id);
+            await _categoryServise.DeleteCategory(categories);
+       
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoriesExists(int id)
-        {
-            return _context.Categories.Any(e => e.CategoryId == id);
-        }
+   
     }
 }
