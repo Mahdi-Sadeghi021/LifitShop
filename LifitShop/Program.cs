@@ -1,9 +1,12 @@
 using Business.BrandServise;
 using Business.CategoryServise;
+using Business.FileUploudServise;
+using Business.ProductServise;
 using DataAccess.Data;
 using DataAccess.Repositories.BrandRepository;
 using DataAccess.Repositories.Categoriesrepository;
 using DataAccess.Repositories.Categoryrepository;
+using DataAccess.Repositories.ProductRepsitory;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -19,6 +22,11 @@ builder.Services.AddScoped<BrandServise>();
 
 builder.Services.AddScoped< ICategoryRepository, CategoriesRepository>();
 builder.Services.AddScoped<CategoryServise>();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ProductServise>();
+builder.Services.AddScoped<IFileUploudservise, FileUploudSevise>();
+
 
 var app = builder.Build();
 

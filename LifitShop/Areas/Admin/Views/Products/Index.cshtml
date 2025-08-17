@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DataAccess.Models.Products>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>لیست محصولات</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">درج محصول جدید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAvailable)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand.BrandName)
+            </td>
+            <td>
+                    <img src="/api/File/GetFile?filename=@item.ImageName" width="60px" height="60px" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAvailable)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-warning">ویرایش</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-primary">جزیات</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-danger">حذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

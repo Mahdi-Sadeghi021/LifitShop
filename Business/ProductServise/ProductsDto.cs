@@ -5,25 +5,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace DataAccess.Models
+namespace Business.ProductServise
 {
-    public class Products
+    public class ProductsDto
     {
-        [Key]
         public int ProductId { get; set; }
 
         [Required]
         [MaxLength(200)]
         public string ProductTitle { get; set; }
 
-        public DateTime Productcreated { get; set; }
-        public bool ShowHomePage { get; set; }
-
         public string? Description { get; set; }
 
         [Required]
         public decimal ProductPrice { get; set; }
+
+        public bool ShowHomePage { get; set; }
 
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
@@ -34,7 +34,8 @@ namespace DataAccess.Models
         public Brand? Brand { get; set; }
 
         // تصویر یا ویژگی‌های دیگر
-        public string? ImageName { get; set; }
+        public IFormFile? ImageName { get; set; }
+        public string? ImagggeName { get; set; }
 
         public bool IsAvailable { get; set; } = true;
     }

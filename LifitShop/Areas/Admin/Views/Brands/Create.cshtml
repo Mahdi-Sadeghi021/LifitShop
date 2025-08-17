@@ -4,9 +4,9 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>درج برند </h1>
 
-<h4>Brand</h4>
+<h4>برند</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,14 +18,14 @@
                 <span asp-validation-for="BrandName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="درج" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-area="Admin" asp-controller="Brands" asp-action="Index">Back to List</a>
+    <a asp-area="Admin" asp-controller="Brands" asp-action="Index" class="btn btn-primary">برگشت به لیست</a>
 </div>
 
 @section Scripts {
