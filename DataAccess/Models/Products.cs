@@ -37,5 +37,7 @@ namespace DataAccess.Models
         public string? ImageName { get; set; }
 
         public bool IsAvailable { get; set; } = true;
+
+        public ICollection<OrderItem>? OrderItems { get; set; }
     }
 }

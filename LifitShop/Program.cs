@@ -3,10 +3,12 @@ using Business.CategoryServise;
 using Business.FileUploudServise;
 using Business.ProductServise;
 using DataAccess.Data;
+using DataAccess.Models;
 using DataAccess.Repositories.BrandRepository;
 using DataAccess.Repositories.Categoriesrepository;
 using DataAccess.Repositories.Categoryrepository;
 using DataAccess.Repositories.ProductRepsitory;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -26,6 +28,29 @@ builder.Services.AddScoped<CategoryServise>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ProductServise>();
 builder.Services.AddScoped<IFileUploudservise, FileUploudSevise>();
+
+builder.Services.AddIdentity<User, Role>(Options =>
+{
+    Options.Password.RequireDigit = false;
+    Options.Password.RequireLowercase = false;
+    Options.Password.RequireNonAlphanumeric = false;
+    Options.Password.RequireUppercase = false;
+    Options.Password.RequiredLength = 8;
+    Options.Password.RequiredUniqueChars = 0;
+
+    //LookOutSetting
+
+    Options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    Options.Lockout.MaxFailedAccessAttempts = 5;
+    Options.Lockout.AllowedForNewUsers = true;
+    Options.User.RequireUniqueEmail = true;
+
+
+
+})
+    .AddEntityFrameworkStores<LifitDbContext>()
+    .AddSignInManager<SignInManager<User>>()
+    .AddDefaultTokenProviders();
 
 
 var app = builder.Build();

@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Models;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Data
 {
-    public class LifitDbContext : DbContext
+    public class LifitDbContext : IdentityDbContext<User,Role,int>
     {
         public LifitDbContext(DbContextOptions<LifitDbContext> options) : base(options)
         {
@@ -18,6 +20,9 @@ namespace DataAccess.Data
         public DbSet<Products> Products { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
