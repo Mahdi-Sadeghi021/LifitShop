@@ -11,7 +11,7 @@
                         <svg class="size-6 p-1.5 flex-center text-gray-100 bg-blue-600 rounded-full w-9 h-9">
                             <use href="#search" />
                         </svg>
-                        <input placeholder="جستجو در کارین..." type="text">
+                        <input placeholder="جستجو در لایفیت..." type="text">
                     </div>
                     <!-- Search Modal -->
                     <div class="search-modal space-y-4">
@@ -85,7 +85,7 @@
                 <!-- Logo -->
                 <a href="index.html" class="flex flex-col text-center ml-20">
                     <span class="font-MorabbaMedium text-4xl flex items-center">
-                        <span class="text-blue-500">کارین</span> شاپ
+                        <span class="text-blue-500">لایفیت</span> شاپ
                     </span>
                     <p class="font-DanaMedium text-gray-400"> خرید موبایل و لپ‌تاپ</p>
                 </a>
@@ -258,7 +258,7 @@
                 <!-- MENU -->
                 <ul class="flex items-center gap-x-8">
                     <li class="menu-item">
-                        <a href="index.html" class="menu-item_link">
+                        <a asp-controller="Home" asp-action="Index" class="menu-item_link">
                             صفحه اصلی
                         </a>
                     </li>
@@ -440,7 +440,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="articles.html" class="menu-item_link">
+        <a  asp-controller="Home" asp-action="Article" class="menu-item_link">
                             وبلاگ
                         </a>
                     </li>
@@ -454,14 +454,14 @@
                         </a>
                         <ul class="solid-menu">
                             <li>
-                                <a href="aboute-us.html">درباره ما</a>
+                <a asp-controller="Home" asp-action="AboutUs">درباره ما</a>
                             </li>
-                            <li>
+                            @* <li>
                                 <a href="questions.html">سوالات متداول</a>
                             </li>
                             <li>
                                 <a href="contact-us.html">تماس با ما</a>
-                            </li>
+                            </li> *@
                             <li class="solid-submenu_link">
                                 <a href="#">صفحات</a>
                                 <svg class="size-4 rotate-90 duration-300">
@@ -898,7 +898,7 @@
                             <svg class="size-5">
                                 <use href="#check-badge" />
                             </svg>
-                            <a href="#">دربـاره مـا</a>
+                        <a asp-controller="Home" asp-action="AboutUs">دربـاره مـا</a>
                         </li>
                         <li class="mobile-menu-item">
                             <svg class="size-5">
@@ -911,7 +911,7 @@
                 <!-- Logo -->
                 <a href="index.html" class="flex flex-col text-center">
                     <span class="font-MorabbaMedium text-3xl flex items-center">
-                        <span class="text-blue-500">کارین</span> شاپ
+                        <span class="text-blue-500">لایفیت</span> شاپ
                     </span>
                 </a>
                 <!-- Toggle theme -->

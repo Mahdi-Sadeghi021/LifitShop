@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Admin</title>
+    <link rel="stylesheet" href="~/css/admincss.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/LifitShop.styles.css" asp-append-version="true" />
+</head>
+<body class="rtl">
+  
+        <header>
+            <div class="header-left">
+                <button>ورود / خروج</button>
+            </div>
+            <div class="header-right">
+                خوش آمدید، اقای رنجبر محمدی
+            </div>
+        </header>
+  
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="/Admin/Products/Index">مدیریت  محصولات</a></li>
+                <li><a href="/Admin/Brands/Index">مدیریت برند</a></li>
+                <li><a href="/Admin/Categories/Index">مدیریت دسته بندی</a></li>
+               
+                <li><a href="#">خروج</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <p>به پنل مدیریت خود خوش آمدید.</p>
+            <p>@RenderBody()</p>
+        </div>
+        
+    </div>
+
+    <footer>
+        
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

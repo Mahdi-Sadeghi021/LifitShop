@@ -21,6 +21,16 @@ namespace LifitShop.Controllers
             var data = await _productServise.GetProductwithcategorybrand();
             return View(data);
         }
+        public async Task<IActionResult> AboutUs()
+
+        {
+            return View();
+        }
+        public async Task<IActionResult> Article()
+        {
+            return View();
+        }
+
 
         public IActionResult Privacy()
         {

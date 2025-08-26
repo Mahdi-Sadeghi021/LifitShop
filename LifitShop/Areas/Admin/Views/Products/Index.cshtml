@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "_LayoutAdmin";
 }
 
 <h1>لیست محصولات</h1>
@@ -55,7 +56,7 @@
                 @Html.DisplayFor(modelItem => item.Brand.BrandName)
             </td>
             <td>
-                    <img src="/api/File/GetFile?filename=@item.ImageName" width="60px" height="60px" />
+                    <img src="api/File/GetFile?filename=@item.ImageName" width="60px" height="60px" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsAvailable)

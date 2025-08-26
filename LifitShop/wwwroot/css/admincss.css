@@ -1,0 +1,90 @@
+﻿body {
+    font-family: sans-serif;
+    background-color: #e6f2ff; /* آبی آسمانی ملایم برای پس زمینه */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    direction:rtl;
+}
+
+header {
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+    .header-left button {
+        background-color: #3ab770; /* بنفش برای دکمه */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .header-left button:hover {
+            background-color: #512da8; /* بنفش تیره تر برای هاور */
+        }
+
+.header-right {
+    font-size: 1.2em;
+    color: #303f9f; /* آبی تیره برای متن */
+}
+
+.container {
+    display: flex;
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar li {
+        margin-bottom: 10px;
+    }
+
+    .sidebar a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: #303f9f; /* آبی تیره برای لینک ها */
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+        .sidebar a:hover {
+            background-color: #e8f0fe; /* آبی روشن برای هاور لینک ها */
+        }
+
+.content {
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-left: 20px;
+}
+
+    .content h1 {
+        color: #303f9f; /* آبی تیره برای عنوان */
+    }
