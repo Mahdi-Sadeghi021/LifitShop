@@ -22,6 +22,7 @@ namespace DataAccess.Models
 
         public string? Description { get; set; }
 
+
         [Required]
         public decimal ProductPrice { get; set; }
 
