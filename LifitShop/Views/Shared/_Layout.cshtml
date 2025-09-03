@@ -13,6 +13,19 @@
     <link rel="stylesheet" href="~/css/swiper.css" asp-append-version="true" />
 
     <link rel="stylesheet" href="~/LifitShop.styles.css" asp-append-version="true" />
+
+    <script type="text/javascript">
+        if (
+            localStorage.theme === "dark" ||
+            (!("theme" in localStorage) &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    </script>
+
 </head>
 <body>
     @await Html.PartialAsync("Partials/_Svg")
