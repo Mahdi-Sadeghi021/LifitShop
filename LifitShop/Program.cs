@@ -1,7 +1,9 @@
+using AspNetCoreGeneratedDocument;
 using Business.BrandServise;
 using Business.CategoryServise;
 using Business.FileUploudServise;
 using Business.ProductServise;
+using Business.SMSService;
 using DataAccess.Data;
 using DataAccess.Models;
 using DataAccess.Repositories.BrandRepository;
@@ -11,11 +13,14 @@ using DataAccess.Repositories.ProductRepsitory;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<KavenegarInfoViewModel>(builder.Configuration.GetSection(key: "KavenegarInfo"));
+builder.Services.AddScoped<ISMSService, SMSService>();
+
 builder.Services.AddDbContext<LifitDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
