@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Business.FileUploudServise
 {
-    public interface IFileUploudservise
+    public interface IfileUploudServise
     {
         Task<string> UploudFileAsync(IFormFile file);
     }

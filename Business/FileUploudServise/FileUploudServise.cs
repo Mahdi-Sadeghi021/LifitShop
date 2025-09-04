@@ -8,14 +8,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace Business.FileUploudServise
 {
-    public class FileUploudSevise : IFileUploudservise
+    public class FileUploudServise : IfileUploudServise
     {
         private readonly string _storagePath;
-        public FileUploudSevise(IConfiguration configuration)
+        public FileUploudServise(IConfiguration configuration)
         {
             _storagePath = configuration["FileUploud:StoragePath"];
         }
-
         public async Task<string> UploudFileAsync(IFormFile file)
         {
             if (!Directory.Exists(_storagePath))
@@ -34,7 +33,7 @@ namespace Business.FileUploudServise
                 await file.CopyToAsync(stream);
             }
             return fileName;
-        
+        }
     }
     }
-}
+

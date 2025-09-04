@@ -7,11 +7,14 @@
                 <div class="relative z-20">
                     <!-- INPUT -->
                     <div
+                       
                         class="search-btn-open flex gap-x-2 app-border bg-gray-50 dark:bg-gray-700 p-1 rounded-full cursor-pointer ring-blue-400 w-84 transition-all">
+                      
                         <svg class="size-6 p-1.5 flex-center text-gray-100 bg-blue-600 rounded-full w-9 h-9">
                             <use href="#search" />
                         </svg>
-                        <input placeholder="جستجو در لایفیت..." type="text">
+                        <input name="Search" placeholder="جستجو در لایفیت..." type="text">
+                  
                     </div>
                     <!-- Search Modal -->
                     <div class="search-modal space-y-4">
@@ -435,7 +438,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="shop.html" class="menu-item_link">
+                        <a asp-controller="Home" asp-action="Store" class="menu-item_link">
                             فروشگاه
                         </a>
                     </li>
