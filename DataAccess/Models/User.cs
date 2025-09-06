@@ -13,21 +13,17 @@ namespace DataAccess.Models
         // نام و نام خانوادگی
         public string? FullName { get; set; }
 
-        //شماره موبایل
-        public string PhoneNumber { get; set; }
-
+  
+        public string mobileNumber { get; set; }
         // آدرس برای ارسال سفارش
         public string? Address { get; set; }
 
         // کد پستی
         public string? PostalCode { get; set; }
 
-        // شماره ملی (اختیاری – برای احراز هویت قوی‌تر)
-        public string? NationalCode { get; set; }
+     
 
-        // تاریخ تولد (برای پیشنهادات و تخفیف‌ها)
-        public DateTime? BirthDate { get; set; }
-
+   
         // تاریخ عضویت (برای گزارش‌گیری و امتیاز مشتری)
         public DateTime RegisterDate { get; set; } = DateTime.Now;
 
