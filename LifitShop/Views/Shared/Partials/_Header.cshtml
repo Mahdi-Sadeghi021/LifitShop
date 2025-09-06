@@ -1,4 +1,6 @@
-﻿  <header class="header">
+﻿
+
+  <header class="header">
         <!-- Desktop -->
         <div class="container mt-5 hidden flex-col gap-y-6 lg:flex">
             <!-- TOPBAR -->
@@ -105,7 +107,7 @@
                     </button>
                     <!-- Account Btn -->
                     <button class="group relative flex-center py-2 px-4 app-border rounded-full app-hover delay-75">
-                        <a href="dashboard.html"  class="flex items-center gap-x-1">
+                        <a asp-controller="Account" asp-action="Register"  class="flex items-center gap-x-1">
                             <svg class="size-5">
                                 <use href="#user" />
                             </svg>

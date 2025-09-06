@@ -20,7 +20,7 @@ namespace DataAccess.Data
         public DbSet<Products> Products { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
-
+        public DbSet<User> users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
 

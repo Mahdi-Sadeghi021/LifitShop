@@ -10,6 +10,7 @@ using DataAccess.Repositories.BrandRepository;
 using DataAccess.Repositories.Categoriesrepository;
 using DataAccess.Repositories.Categoryrepository;
 using DataAccess.Repositories.ProductRepsitory;
+using DataAccess.Repositories.UserRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,8 @@ builder.Services.AddScoped<CategoryServise>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ProductServise>();
 builder.Services.AddScoped<IfileUploudServise, FileUploudServise>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddIdentity<User, Role>(Options =>
 {

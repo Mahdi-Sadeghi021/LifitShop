@@ -10,6 +10,7 @@ namespace DataAccess.Models
     public class RegisterDto
     {
         [Required]
+        [Phone]
         public int PhoneNumber { get; set; }
     }
 }

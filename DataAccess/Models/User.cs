@@ -13,6 +13,9 @@ namespace DataAccess.Models
         // نام و نام خانوادگی
         public string? FullName { get; set; }
 
+        //شماره موبایل
+        public string PhoneNumber { get; set; }
+
         // آدرس برای ارسال سفارش
         public string? Address { get; set; }
 

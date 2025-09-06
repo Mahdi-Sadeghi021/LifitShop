@@ -1,19 +1,16 @@
-﻿using DataAccess.Models;
+﻿using DataAccess.Repositories.UserRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace LifitShop.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly IUserRepository _userRepository;
+        public AccountController(IUserRepository userRepository)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _userRepository = userRepository;
         }
 
         public IActionResult Register()
@@ -22,20 +19,20 @@ namespace LifitShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterDto model)
+        public IActionResult Register(Register register)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = new User { UserName = model.PhoneNumber.ToString()};
-                var res = await _userManager.CreateAsync(user);
-                if (res.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
-                }
+                return View(register);
             }
-            return View(model);
-        }
 
+            if (_userRepository.IsExisUserByPhoneNumber(register.ToString()));
+            {
+                return View(register);
+            }
+
+           
+
+        }
     }
 }
