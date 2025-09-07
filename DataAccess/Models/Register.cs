@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Models
 {
-    public class RegisterViewModel
+    public class Register
     {
         public string PhoneNumber { get; set; }
     }
