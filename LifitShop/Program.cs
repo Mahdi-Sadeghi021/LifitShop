@@ -38,6 +38,8 @@ builder.Services.AddScoped<CategoryServise>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ProductServise>();
 builder.Services.AddScoped<IfileUploudServise, FileUploudServise>();
+builder.Services.AddMemoryCache();
+
 
 builder.Services.AddIdentity<User, Role>(Options =>
 {
