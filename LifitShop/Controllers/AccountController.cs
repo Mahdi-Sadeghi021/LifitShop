@@ -1,4 +1,4 @@
-﻿using DataAccess.Repositories.UserRepository;
+﻿using Business.UserService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
@@ -7,32 +7,36 @@ namespace LifitShop.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserRepository _userRepository;
-        public AccountController(IUserRepository userRepository)
+        private readonly IUserService _userService;
+        public AccountController(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Register(Register register)
+        public IActionResult Register(string phoneNumber)
         {
-            if (!ModelState.IsValid)
+            // 1) چک کن توی دیتابیس هست یا نه
+            var user = _userService.GetUserByPhoneNumber(phoneNumber);
+
+            if (user != null)
             {
-                return View(register);
+                // اگه کاربر قبلا ثبت‌نام کرده → مستقیم لاگین بشه
+                // (اینجا می‌تونی کوکی / سشن ست کنی یا بفرستیش به صفحه داشبورد)
+                HttpContext.Session.SetString("UserId", user.Id.ToString());
+                return RedirectToAction("Index", "Home");
             }
-
-            if (_userRepository.IsExisUserByPhoneNumber(register.ToString()));
+            else
             {
-                return View(register);
+                // اگه نبود → بفرست به صفحه ثبت‌نام
+                return RedirectToAction("Register", "Account", new { phoneNumber = phoneNumber });
             }
-
-           
-
         }
     }
 }

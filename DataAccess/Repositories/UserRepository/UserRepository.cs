@@ -1,16 +1,10 @@
 ﻿using DataAccess.Data;
 using DataAccess.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories.UserRepository
 {
     public class UserRepository : IUserRepository
     {
-
         private readonly LifitDbContext _context;
 
         public UserRepository(LifitDbContext context)
@@ -18,14 +12,28 @@ namespace DataAccess.Repositories.UserRepository
             _context = context;
         }
 
-        public bool IsExisUserByPhoneNumber(string phoneNumber)
+        /// <summary>
+        /// گرفتن کاربر بر اساس شماره موبایل
+        /// </summary>
+        public User GetByPhoneNumber(string phoneNumber)
         {
-            return _context.Users.Any(u => u.PhoneNumber == phoneNumber);
+            return _context.Users.FirstOrDefault(u => u.mobileNumber == phoneNumber);
         }
 
-        public void AddUser(User user)
+        /// <summary>
+        /// اضافه کردن کاربر جدید
+        /// </summary>
+        public void Add(User user)
         {
-            _context.Add(user);
+            _context.Users.Add(user);
+            Save();
+        }
+
+        /// <summary>
+        /// ذخیره تغییرات
+        /// </summary>
+        public void Save()
+        {
             _context.SaveChanges();
         }
     }

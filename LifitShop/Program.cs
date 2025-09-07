@@ -4,6 +4,7 @@ using Business.CategoryServise;
 using Business.FileUploudServise;
 using Business.ProductServise;
 using Business.SMSService;
+using Business.UserService;
 using DataAccess.Data;
 using DataAccess.Models;
 using DataAccess.Repositories.BrandRepository;
@@ -18,6 +19,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.Configure<KavenegarInfoViewModel>(builder.Configuration.GetSection(key: "KavenegarInfo"));
 builder.Services.AddScoped<ISMSService, SMSService>();
@@ -34,8 +38,6 @@ builder.Services.AddScoped<CategoryServise>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ProductServise>();
 builder.Services.AddScoped<IfileUploudServise, FileUploudServise>();
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddIdentity<User, Role>(Options =>
 {

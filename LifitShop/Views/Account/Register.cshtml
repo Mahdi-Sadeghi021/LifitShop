@@ -1,5 +1,5 @@
 ﻿@using DataAccess.Models
-@model RegisterDto
+@model User
 
 @{
     ViewData["Title"] = "Register";
@@ -48,20 +48,20 @@
                 </button>
                 <a href="index.html" class="flex flex-col text-center">
                     <span class="font-MorabbaMedium text-4xl flex items-center">
-                        <span class="text-blue-500">کارین</span> شاپ
+                        <span class="text-blue-500">Lifit</span> Shop
                     </span>
                 </a>
             </div>
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 <p class="mb-2 text-gray-800 dark:text-gray-100 font-DanaMedium text-lg">ورود | ثبت‌نام </p>
-                <form asp-action="Register" method="post" class="space-y-5">
+                <form asp-controller="Account" asp-action="Register" class="space-y-5" method="POST">
                     <div>
                         <label for="email" class="block text-sm/6 font-medium text-gray-500 dark:text-gray-300">
-                            لطفا شماره موبایل 
-                            خود را وارد کنید
+                            لطفا شماره موبایل یا
+                            ایمیل خود را وارد کنید
                         </label>
                         <div class="mt-3">
-                            <input asp-for="PhoneNumber" type="text" required
+                            <input type="text" required
                                    class="block w-full p-3 text-base outline dark:outline-none outline-1 -outline-offset-1 placeholder:text-gray-400  sm:text-sm/6 transition-all
                 text-gray-800 dark:text-gray-100 dark:bg-gray-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded-md outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-blue-400
                 ">

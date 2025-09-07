@@ -13,7 +13,6 @@ namespace DataAccess.Models
         // نام و نام خانوادگی
         public string? FullName { get; set; }
 
-  
         public string mobileNumber { get; set; }
         // آدرس برای ارسال سفارش
         public string? Address { get; set; }
@@ -21,9 +20,6 @@ namespace DataAccess.Models
         // کد پستی
         public string? PostalCode { get; set; }
 
-     
-
-   
         // تاریخ عضویت (برای گزارش‌گیری و امتیاز مشتری)
         public DateTime RegisterDate { get; set; } = DateTime.Now;
 

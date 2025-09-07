@@ -1,15 +1,22 @@
 ﻿using DataAccess.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories.UserRepository
 {
     public interface IUserRepository
     {
-        bool IsExisUserByPhoneNumber(string phoneNumber);
-        void AddUser(User user);
+        /// <summary>
+        /// گرفتن کاربر بر اساس شماره موبایل
+        /// </summary>
+        User GetByPhoneNumber(string phoneNumber);
+
+        /// <summary>
+        /// اضافه کردن کاربر جدید
+        /// </summary>
+        void Add(User user);
+
+        /// <summary>
+        /// ذخیره تغییرات در دیتابیس
+        /// </summary>
+        void Save();
     }
 }
