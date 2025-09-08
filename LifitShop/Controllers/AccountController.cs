@@ -36,65 +36,41 @@ namespace LifitShop.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(User model)
+        public IActionResult Register(User model)
         {
             if (!ModelState.IsValid)
+                return View(model);
+
+            // بررسی اینکه شماره موبایل قبلاً در Cache هست یا نه
+            if (_cache.TryGetValue($"otp_pending_{model.mobileNumber}", out _))
             {
-                // نمایش همه خطاهای مدل
+                ModelState.AddModelError("", "برای این شماره موبایل کد تایید ارسال شده است. لطفا کد را وارد کنید.");
                 return View(model);
             }
 
-            try
+            // تولید کد OTP
+            var code = Generator.RandomNumber();
+
+            // ذخیره اطلاعات فرم و OTP در Cache برای 5 دقیقه
+            _cache.Set($"otp_pending_{model.mobileNumber}", new
             {
-                // بررسی اینکه کاربر با این شماره موبایل قبلاً وجود ندارد
-                var existingUser = await _userManager.FindByNameAsync(model.mobileNumber);
-                if (existingUser != null)
-                {
-                    ModelState.AddModelError("", "این شماره موبایل قبلاً ثبت‌نام شده است.");
-                    return View(model);
-                }
+                UserData = model,
+                OTP = code
+            }, TimeSpan.FromMinutes(5));
 
-                // ایجاد کاربر جدید
-                var user = new User
-                {
-                    UserName = model.mobileNumber,
-                    mobileNumber = model.mobileNumber,
-                    FullName = model.FullName,
-                    Address = model.Address,
-                    PostalCode = model.PostalCode,
-                    RegisterDate = DateTime.Now,
-                    IsActive = true
-                };
+            // ارسال پیامک (اگر سرویس تستی باشه، فقط به شماره خود سرویس ارسال می‌شود)
+            _smsService.SendLookupSMS(model.mobileNumber, "RegisterTemplate", code);
 
-                // ثبت کاربر در Identity
-                var result = await _userManager.CreateAsync(user);
-                if (!result.Succeeded)
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                    return View(model);
-                }
-
-                // ورود کاربر بعد از ثبت‌نام
-                await _signInManager.SignInAsync(user, isPersistent: true);
-
-                // هدایت به صفحه اصلی
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                return View(model);
-            }
-            }
+            TempData["PhoneNumber"] = model.mobileNumber;
+            return RedirectToAction("VerifyCode");
+        }
 
 
-            /// <summary>
-            /// نمایش فرم ورود (شماره موبایل)
-            /// </summary>
-            [HttpGet]
+
+        /// <summary>
+        /// نمایش فرم ورود (شماره موبایل)
+        /// </summary>
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
@@ -142,41 +118,56 @@ namespace LifitShop.Controllers
         [HttpPost]
         public async Task<IActionResult> VerifyCode(string phoneNumber, string code)
         {
-            if (!_cache.TryGetValue($"otp_{phoneNumber}", out string savedCode) || savedCode != code)
+            if (!_cache.TryGetValue($"otp_pending_{phoneNumber}", out dynamic pending))
             {
-                ModelState.AddModelError("", "کد وارد شده صحیح نیست یا منقضی شده است.");
+                ModelState.AddModelError("", "کد منقضی شده است یا شماره موبایل معتبر نیست.");
                 return View();
             }
 
-            // کاربر موجود است؟
-            var user = _userService.GetUserByPhoneNumber(phoneNumber);
-            if (user == null)
+            if (pending.OTP != code)
             {
-                // ثبت‌نام سریع
-                user = new User
-                {
-                    UserName = phoneNumber,
-                    mobileNumber = phoneNumber,
-                    RegisterDate = DateTime.Now,
-                    IsActive = true
-                };
-
-                var result = await _userManager.CreateAsync(user);
-                if (!result.Succeeded)
-                {
-                    ModelState.AddModelError("", "خطا در ثبت‌نام کاربر.");
-                    return View();
-                }
+                ModelState.AddModelError("", "کد وارد شده صحیح نیست.");
+                return View();
             }
 
-            // ورود
+            // بررسی اینکه کاربر با این شماره موبایل قبلاً ثبت نشده باشد
+            var existingUser = await _userManager.FindByNameAsync(phoneNumber);
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("", "این شماره موبایل قبلاً ثبت‌نام شده است.");
+                return View();
+            }
+
+            // ساخت کاربر با تمام اطلاعات فرم
+            var model = pending.UserData as User;
+            var user = new User
+            {
+                UserName = model.mobileNumber,
+                mobileNumber = model.mobileNumber,
+                FullName = model.FullName,
+                Address = model.Address,
+                PostalCode = model.PostalCode,
+                Email = model.Email,
+                RegisterDate = DateTime.Now,
+                IsActive = true
+            };
+
+            var result = await _userManager.CreateAsync(user);
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "خطا در ثبت‌نام کاربر.");
+                return View();
+            }
+
+            // ورود کاربر
             await _signInManager.SignInAsync(user, isPersistent: true);
 
-            // پاک کردن OTP
-            _cache.Remove($"otp_{phoneNumber}");
+            // پاک کردن Cache
+            _cache.Remove($"otp_pending_{phoneNumber}");
 
             return RedirectToAction("Index", "Home");
         }
+
 
         /// <summary>
         /// خروج کاربر
