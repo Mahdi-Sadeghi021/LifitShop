@@ -12,7 +12,7 @@ using Business.CategoryServise;
 namespace LifitShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoriesController : Controller
+    public class CategoriesController : AdminBaseController
     {
         private readonly CategoryServise _categoryServise;
 

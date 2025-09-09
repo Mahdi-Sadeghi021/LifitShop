@@ -13,19 +13,18 @@ namespace DataAccess.Models
         [Key]
         public int Id { get; set; }
 
-        public int BasketId { get; set; }
+        public int OrderId { get; set; }
 
         // محصولی که کاربر انتخاب کرده
         public int ProductId { get; set; }
 
-        // قیمت لحظه‌ای محصول (که موقع خرید ذخیره میشه)
-        public decimal UnitPrice { get; set; }
+    
 
         // تعداد محصول
         public int Quantity { get; set; }
 
         // مبلغ کل (قابل محاسبه هم هست)
-        public decimal TotalPrice => UnitPrice * Quantity;
+        public decimal TotalPrice { get; set; } 
 
         public DateTime Created { get; set; } = DateTime.Now;
 

@@ -14,7 +14,7 @@ using Business.CategoryServise;
 namespace LifitShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProductsController : Controller
+    public class ProductsController : AdminBaseController
     {
         private readonly ProductServise _productServise ;
         private readonly BrandServise _brandServise;

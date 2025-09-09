@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace LifitShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class BrandsController : Controller
+    public class BrandsController : AdminBaseController
     {
         private readonly BrandServise _brandServise;
 
