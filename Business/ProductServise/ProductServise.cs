@@ -104,7 +104,7 @@ namespace Business.ProductServise
         }
 
 
-        public async Task<PagedProductDto> GetProductPageInation(int page, int pageSize, string? search)
+        public async Task<PagedProductDto> GetProductPageInation(int page, int pageSize, string? search, int? categoryId =null)
         {
             var books = _productRepository.GetAll();
 

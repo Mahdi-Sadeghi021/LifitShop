@@ -30,12 +30,13 @@ namespace LifitShop.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> Store(int page=1 , int PageSize=6, string search = null)
+        public async Task<IActionResult> Store(int page = 1, int PageSize = 6, string search = null)
         {
             var data = await _productServise.GetProductPageInation(page, PageSize, search);
             ViewBag.search = search;
             return View(data);
         }
+
 
 
         public IActionResult Privacy()
