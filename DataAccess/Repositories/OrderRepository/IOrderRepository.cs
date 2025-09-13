@@ -17,5 +17,8 @@ namespace DataAccess.Repositories.OrderRepository
         Task Update(Order order);
         Task Delete(Order order);
         Task Delete(int Id);
+        IQueryable<OrderItem> GetAllOrdertItems(Expression<Func<OrderItem, bool>> where = null);
+        Task AddOrdertItem(OrderItem item);
+        Task DeletePrderItem(OrderItem item);
     }
 }

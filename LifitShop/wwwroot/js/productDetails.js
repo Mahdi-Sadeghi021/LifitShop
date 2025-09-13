@@ -1,4 +1,84 @@
 
+
+const countInput = document.getElementById("countInput");
+const bookIntPrice = document.getElementById("bookIntPrice");
+const bookShowPrice = document.getElementById("bookShowPrice");
+
+function updateTotalPrice() {
+    let count = parseInt(countInput.value) || 1;
+    if (count < 1) count = 1;
+    if (count > 20) count = 20;
+    countInput.value = count;
+
+    let totalPrice = count * parseInt(bookIntPrice.value);
+    bookShowPrice.innerText = totalPrice.toLocaleString();
+}
+
+// مقدار اولیه
+updateTotalPrice();
+
+// وقتی دستی تغییر کرد
+countInput.addEventListener("input", updateTotalPrice);
+
+// دکمه افزایش
+document.querySelectorAll(".increment, .increment use").forEach(btn => {
+    btn.addEventListener("click", () => {
+        countInput.value = parseInt(countInput.value) + 1;
+        updateTotalPrice();
+    });
+});
+
+// دکمه کاهش
+document.querySelectorAll(".decrement, .decrement use").forEach(btn => {
+    btn.addEventListener("click", () => {
+        countInput.value = parseInt(countInput.value) - 1;
+        updateTotalPrice();
+    });
+});
+
+
+
+//document.addEventListener("DOMContentLoaded", function () {
+//    const countInput = document.getElementById("countInput");
+//    const bookIntPrice = document.getElementById("bookIntPrice");
+//    const bookShowPrice = document.getElementById("bookShowPrice");
+//    const incrementBtn = document.querySelector(".increment");
+//    const decrementBtn = document.querySelector(".decrement");
+
+//    if (!countInput || !bookIntPrice || !bookShowPrice) return;
+
+//    // تابع بروزرسانی قیمت
+//    function updatePrice() {
+//        let count = parseInt(countInput.value) || 1;
+
+//        if (count < 1) count = 1;
+//        if (count > 20) count = 20;
+
+//        countInput.value = count;
+
+//        const totalPrice = count * parseInt(bookIntPrice.value);
+//        bookShowPrice.textContent = totalPrice.toLocaleString("fa-IR") + " تومان";
+//    }
+
+//    // رویداد تغییر input
+//    countInput.addEventListener("change", updatePrice);
+
+//    // دکمه +
+//    incrementBtn?.addEventListener("click", () => {
+//        countInput.value = parseInt(countInput.value || 0) + 1;
+//        updatePrice();
+//    });
+
+//    // دکمه -
+//    decrementBtn?.addEventListener("click", () => {
+//        countInput.value = parseInt(countInput.value || 1) - 1;
+//        updatePrice();
+//    });
+
+//    // مقدار اولیه
+//    updatePrice();
+//});
+
 // COLOR SELCET
 const colorButtons = document.querySelectorAll(".color-select-btn");
 const colorTitle = document.querySelector(".color-title");
@@ -136,3 +216,8 @@ closeSliderModal.addEventListener('click', () => {
     sliderModal.classList.remove('active')
     overlayProductPage.classList.remove('active')
 })
+
+
+
+
+

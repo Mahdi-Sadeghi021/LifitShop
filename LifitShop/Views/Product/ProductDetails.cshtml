@@ -4,262 +4,217 @@
     ViewData["Title"] = "ProductDetails";
 }
 <body>
-    <svg class="hidden">
-        <symbol id="share" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-            <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
-        </symbol>
-        <symbol id="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-        </symbol>
-    </svg>
-<main class="container">
-    <!-- Breadcrumb -->
-    <nav class="flex mt-8" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-            <li class="inline-flex items-center">
-                <a href="index.html"
-                   class="inline-flex items-center text-sm gap-x-1  text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                    <svg class="size-4 mb-0.5">
-                        <use href="#home" />
+    <main class="container">
+        <!-- Breadcrumb -->
+        <nav class="flex mt-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                <li class="inline-flex items-center">
+                    <a href="index.html" class="inline-flex items-center text-sm gap-x-1 text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                        <svg class="size-4 mb-0.5"><use href="#home" /></svg>
+                        صفحه اصلی
+                    </a>
+                </li>
+                <li class="inline-flex items-center">
+                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m1 9 4-4-4-4" />
                     </svg>
-                    صفحه اصلی
+                    <a href="shop.html" class="inline-flex items-center text-sm gap-x-1 text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                        فروشگاه
+                    </a>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m1 9 4-4-4-4" />
+                        </svg>
+                        <span class="ms-1 text-sm text-gray-500 md:ms-2 dark:text-gray-400">جزییات محصول</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- PRODUCT DETAILS SECTION -->
+        <section class="mt-5 flex flex-col lg:flex-row items-start gap-4 child:rounded-lg child:bg-white child:dark:bg-gray-800 child:shadow child:p-4">
+            <!-- IMAGE & INFO -->
+            <div class="w-full lg:w-3/4">
+                <div class="flex flex-col md:flex-row justify-start gap-x-8 xl:gap-x-2 items-start">
+                    <!-- IMAGES -->
+                    <div class="w-2/4 hidden md:flex flex-col justify-center items-center gap-y-4">
+                        <span class="open-sliderModal">
+                            <img src="/api/File/GetFile?filename=@Model.ImageName" class="cursor-pointer object-cover" alt="">
+                        </span>
+                        <div class="grid grid-cols-12 gap-x-4">
+                            <div class="p-1 open-sliderModal"><img src="/assets/images/NewFolder/download (1).jpeg" class="object-cover rounded-lg"></div>
+                            <div class="p-1 open-sliderModal"><img src="/assets/images/NewFolder/download (1).jpeg" class="object-cover rounded-lg"></div>
+                            <div class="p-1 open-sliderModal"><img src="/assets/images/NewFolder/download (1).jpeg" class="object-cover rounded-lg"></div>
+                            <div class="overflow-hidden relative open-sliderModal"><img src="/assets/images/NewFolder/download (1).jpeg" class="object-cover rounded-lg blur-sm"></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="ProductId" value="@Model.ProductId"/>
+
+                    <!-- INFO -->
+                    <div class="w-full md:w-3/4 flex flex-col gap-y-7">
+                        <p class="text-lg font-DanaDemiBold dark:text-gray-300">@Model.ProductTitle</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">@Model.Brand.BrandName</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRICE & CART -->
+            <div class="w-full lg:w-1/4 lg:sticky top-5 flex flex-col gap-y-6">
+                <!-- PRICE DISPLAY -->
+                <div class="flex items-center gap-x-1">
+                    <p class="text-2xl font-DanaDemiBold">@Model.ProductPrice.ToString("N0")</p>
+                    <p>تومان</p>
+                </div>
+
+                <!-- QUANTITY SELECT -->
+                <button class="w-full flex items-center justify-between gap-x-1 rounded-lg border py-2 px-3">
+                    <svg class="w-6 h-6 increment text-green-600 cursor-pointer"><use href="#plus"></use></svg>
+                    <input type="number" id="countInput" min="1" max="20" value="1"
+                           class="custom-input mr-4 text-lg bg-transparent text-center">
+                    <svg class="w-6 h-6 decrement text-red-500 cursor-pointer"><use href="#minus"></use></svg>
+                </button>
+
+                <!-- TOTAL PRICE -->
+                <button class="w-full flex items-center gap-x-1 justify-between bg-gray-100 dark:bg-gray-900 dark:text-gray-400 rounded-lg py-2 px-3 font-DanaMedium text-sm xl:text-base">
+                    <input type="hidden" id="bookIntPrice" value="@Model.ProductPrice">
+                    <p>مجموع خرید :</p>
+                    <p id="bookShowPrice" class="total-price">۰</p>
+                    @* <span>تومان</span> *@
+                </button>
+
+                <!-- ADD TO CART -->
+                <a onclick="AddToOrder()"
+                        class="w-full flex items-center justify-center bg-blue-500 text-white hover:bg-blue-600 rounded-lg shadow py-2">
+                    افزودن به سبد
+                    <svg class="w-5 h-5"><use href="#shopping-bag"></use></svg>
                 </a>
-            </li>
-            <li class="inline-flex items-center">
-                <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
-                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="m1 9 4-4-4-4" />
-                </svg>
-                <a href="shop.html"
-                   class="inline-flex items-center text-sm gap-x-1  text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                    فروشگاه
-                </a>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="m1 9 4-4-4-4" />
-                    </svg>
-                    <span class="ms-1 text-sm  text-gray-500 md:ms-2 dark:text-gray-400">جزییات محصول</span>
-                </div>
-            </li>
-        </ol>
-    </nav>
-    <!-- PRODUCT DETAILS SECTION -->
-    <section class="mt-5 flex flex-col lg:flex-row items-start gap-4 child:rounded-lg child:bg-white child:dark:bg-gray-800 child:shadow child:p-4">
-        <!-- IMAGE & INFO BOX Container -->
-        <div class="w-full lg:w-3/4">
-            <div class="flex flex-col md:flex-row justify-start gap-x-8 xl:gap-x-2 items-start">
-                <!-- IMAGE SLIDER -->
-                <div class="w-2/4 hidden md:flex flex-col justify-center items-center gap-y-4">
-                    <span class="open-sliderModal">
-                        <img src="/assets/images/NewFolder/download (1).jpeg" class="cursor-pointer object-cover" alt="">
-                    </span>
-                    <div class="grid grid-cols-12 child:col-span-3 child:app-border gap-x-4 child:size-16 child:rounded-lg child:cursor-pointer">
-                        <div class="p-1 open-sliderModal">
-                            <img src="/assets/images/NewFolder/download (1).jpeg" class="object-cover  rounded-lg">
-                        </div>
-                        <div class="p-1 open-sliderModal">
-                            <img src="/assets/images/NewFolder/download (1).jpeg" class="object-cover  rounded-lg">
-                        </div>
-                        <div class="p-1 open-sliderModal">
-                            <img src="/assets/images/NewFolder/download (1).jpeg" class="object-cover  rounded-lg">
-                        </div>
-                        <div class="overflow-hidden relative open-sliderModal">
-                            <svg class="absolute size-8 text-gray-100 top-4 left-4 z-10">
-                                <use href="#ellipsis"></use>
-                            </svg>
-                            <img src="/assets/images/NewFolder/download (1).jpeg" class="object-cover rounded-lg blur-sm">
-                        </div>
-                    </div>
-                </div>
-                <div class="slider-modal">
-                    <div class="flex w-full h-fit items-center justify-between">
-                        <h1 class="font-DanaMedium text-lg">
-                            تصاویر گوشی موبایل اپل مدل iPhone 16 دو سیم کارت
-                        </h1>
-                        <svg class="size-6 cursor-pointer close-sliderModal">
-                            <use href="#x-mark"></use>
-                        </svg>
-                    </div>
+            </div>
+        </section>
 
-                    <div class="swiper ProductDetailsSlider mt-14 px-10 w-96 relative">
-                        <div class="swiper-wrapper w-[50%] child:w-full child:rounded-lg child:overflow-hidden">
-                            <div class="swiper-slide">
-                                <img src="/assets/images/NewFolder/download (1).jpeg" alt="">
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/assets/images/NewFolder/download (1).jpeg" alt="">
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/assets/images/NewFolder/download (1).jpeg" alt="">
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/assets/images/NewFolder/download (1).jpeg" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="slider-navigate_btn absolute right-40 top-[17rem] border dark:border-gray-700 border-gray-200 button-prev-ProductDetailsSlider z-20">
-                        <svg class="size-6 -rotate-90">
-                            <use href="#chevron" />
-                        </svg>
-                    </button>
-                    <button class="slider-navigate_btn absolute left-40 top-[17rem] border dark:border-gray-700 border-gray-200 button-next-ProductDetailsSlider z-10">
-                        <svg class="size-6 rotate-90">
-                            <use href="#chevron" />
-                        </svg>
-                    </button>
-                </div>
-                <!-- INFOS -->
-                <div class="w-full md:w-3/4 flex flex-col gap-y-7">
-                    <div class="flex items-center justify-between">
-                        <a href="shop.html" class="font-DanaMedium text-sky-400">بهداشتی / ژل بهداشتی</a>
-                        <div class="hidden md:flex items-center gap-x-2">
-                            <div class="tooltip">
-                                <button class="rounded-full p-1.5 app-border app-hover">
-                                    <svg class="size-4 md:size-5">
-                                        <use xlink:href="#share"></use>
-                                    </svg
-                                </button>
-                                <div class="tooltiptext">
-                                    اشتراک‌گذاری
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- MOBILE SLIDER -->
-                    <div class="flex md:hidden">
-                        <div class="swiper MobileProductSlider w-full">
-                            <div class="swiper-wrapper w-full child:w-full child:overflow-hidden child:rounded-lg">
-                                <div class="swiper-slide">
-                                    <img src="./images/products/11.png" alt="">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="./images/products/12.webp" alt="">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="./images/products/13.webp" alt="">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="./images/products/14.webp" alt="">
-                                </div>
-                            </div>
-                            <div class="swiper-pagination MobileProductSlider-pagination"></div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-y-3">
-                        <p class="text-lg font-DanaDemiBold dark:text-gray-300">
-                            @Model.ProductTitle
-                        </p>
-                        <p class="text-sm text-gray-300 dark:text-gray-500">
-                            @Model.Brand.BrandName
-                        </p>
-                    </div>
+        <!-- PRODUCT DESCRIPTION & TAB -->
+        <section class="relative mt-10 flex flex-col items-start gap-4 rounded-lg bg-white dark:bg-gray-800 shadow p-4">
+            <div class="w-full py-3 flex items-center gap-x-6 child:font-DanaMedium tab-buttons z-10 border-b border-gray-600/20 dark:border-b-gray-200/20">
+                <button class="tab-btn text-blue-500" data-target="tab1">راهنمای محصول</button>
+                <button class="tab-btn text-gray-500 dark:text-gray-300" data-target="tab2">مشخصات</button>
+            </div>
+            <div class="tab-content tab1 block">
+                <h2 class="font-DanaDemiBold border-b-2 border-blue-500 w-fit p-1 text-lg">معرفی</h2>
+                <p class="mt-4 leading-8">@Model.Description</p>
+            </div>
+            <div class="tab-content tab2 hidden w-full lg:w-[50%]">
+                <h2 class="font-DanaDemiBold border-b-2 border-blue-500 w-fit p-1 text-lg">مشخصات کلی</h2>
+                <div class="p-4 my-5 w-full mx-auto flex justify-center items-center gap-x-20">
+                    <ul class="space-y-3 text-gray-500 dark:text-gray-300 lg:w-2/4 child:pt-2">
+                        <li>وزن</li>
+                        <li>اندازه</li>
+                        <li>برند</li>
+                    </ul>
+                    <ul class="space-y-3 text-gray-800 dark:text-gray-200 lg:w-2/4 divide-y divide-gray-200 dark:divide-gray-700 font-DanaMedium child:line-clamp-1">
+                        <li class="pt-2">300 میل</li>
+                        <li class="pt-2">16*6.5*6.5 سانتی متر</li>
+                        <li class="pt-2">@Model.Brand.BrandName</li>
+                    </ul>
                 </div>
             </div>
-            <div class="mt-10 lg:mr-2 grid grid-cols-12 child:col-span-6 xl:child:col-span-3 gap-x-1 gap-y-2 lg:gap-4 child:border child:text-gray-400 child:dark:border-white/20 child:border-gray-200 child:rounded-lg child:h-12  child:p-2 child:flex child:items-center child:gap-x-1 lg:child:gap-x-2 child:text-sm lg:text-base">
-                <span>
-                    <svg class="w-4 h-4 lg:w-6 lg:h-6">
-                        <use href="#arrow-path-rounded-square"></use>
-                    </svg>
-                    <p>ضمانت بازگشت کالا</p>
-                </span>
-                <span>
-                    <svg class="w-4 h-4 lg:w-6 lg:h-6">
-                        <use href="#check-badge"></use>
-                    </svg>
-                    <p>
-                        تضمین اصالت کالا
-                    </p>
-                </span>
-                <span>
-                    <svg class="w-4 h-4 lg:w-6 lg:h-6">
-                        <use href="#calender-day"></use>
-                    </svg>
-                    <p>پشتیبانی کل هفته</p>
-                </span>
-                <span>
-                    <svg class="w-4 h-4 lg:w-6 lg:h-6">
-                        <use href="#truke"></use>
-                    </svg>
-                    <p>ارسال به سراسر ایران </p>
-                </span>
-            </div>
-        </div>
-        <!-- PRICE & ADD TO CART BOX -->
-        <div class="w-full lg:w-1/4 lg:sticky top-5 flex flex-col gap-y-6">
-            <!-- PRICE -->
-            <div class="flex items-center gap-x-1">
-                <p class="text-2xl font-DanaDemiBold">@Model.ProductPrice</p>
-                <p class="">تومان</p>
-            </div>
-            <button class="w-full flex items-center justify-between gap-x-1 rounded-lg border border-gray-200 dark:border-white/20 py-2 px-3">
-                <svg class="w-6 h-6 increment text-green-600">
-                    <use href="#plus"></use>
-                </svg>
-                <input type="number" name="customInput" id="customInput" min="1" max="20" value="1"
-                       class="custom-input mr-4 text-lg bg-transparent">
-                <svg class="w-6 h-6 decrement text-red-500">
-                    <use href="#minus"></use>
-                </svg>
-            </button>
-
-            <button class="w-full flex items-center gap-x-1 justify-between dark:bg-gray-900 dark:text-gray-400  bg-gray-100 transition-all rounded-lg py-2 px-2 xl:px-3 font-DanaMedium text-sm xl:text-base">
-                <p>مجموع خرید :</p>
-                <p>@Model.ProductPrice</p>
-            </button>
-
-            <button class="w-full flex items-center gap-x-1 justify-center bg-blue-500 text-white hover:bg-blue-600 transition-all rounded-lg shadow py-2">
-                افزودن به سبد
-                <svg class="w-5 h-5">
-                    <use href="#shopping-bag"></use>
-                </svg>
-            </button>
-
-        </div>
-    </section>
-
-    <section class="relative mt-10 flex flex-col items-start gap-4 rounded-lg bg-white dark:bg-gray-800 shadow p-4">
-        <div class="w-full py-3 flex items-center gap-x-6 child:font-DanaMedium tab-buttons z-10 border-b  border-gray-600/20 dark:border-b-gray-200/20">
-            <button class="tab-btn text-blue-500" data-target="tab1">راهنمای محصول</button>
-            <button class="tab-btn text-gray-500 dark:text-gray-300" data-target="tab2">مشخصات</button>
-        </div>
-        <div class="tab-content tab1 block">
-            <h2 class="font-DanaDemiBold border-b-2 border-blue-500 w-fit p-1 text-lg">معرفی</h2>
-            <p class="mt-4 leading-8">
-                @Model.Description
-            </p>
-        </div>
-        <div class="tab-content tab2 hidden w-full lg:w-[50%]">
-            <h2 class="font-DanaDemiBold border-b-2 border-blue-500 w-fit p-1 text-lg">
-                مشخصات کلی
-            </h2>
-            <div class="p-4 my-5 w-full mx-auto flex justify-center items-center gap-x-20">
-                <ul class="space-y-3 text-gray-500 dark:text-gray-300 lg:w-2/4 child:pt-2">
-                    <li>وزن</li>
-                    <li>اندازه</li>
-                    <li>برند</li>
-                </ul>
-                <ul class="space-y-3 text-gray-800 dark:text-gray-200 lg:w-2/4 divide-y divide-gray-200 dark:divide-gray-700 font-DanaMedium child:line-clamp-1">
-                    <li class="pt-2">300 میل</li>
-                    <li class="pt-2">16*6.5*6.5 سانتی متر</li>
-                    <li class="pt-2">@Model.Brand.BrandName</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
 </body>
-
-@section Scripts{
+@* 
+@section Scripts {
     <script>
-        function AddToOrder() {
-            var productId = document.getElementById("productId").value;
+        const countInput = document.getElementById("countInput");
+        const bookIntPrice = document.getElementById("bookIntPrice");
+        const bookShowPrice = document.getElementById("bookShowPrice");
+
+        function updateTotalPrice() {
+            let count = parseInt(countInput.value) || 1;
+            if (count < 1) count = 1;
+            if (count > 20) count = 20;
+            countInput.value = count;
+
+            let totalPrice = count * parseInt(bookIntPrice.value);
+            bookShowPrice.innerText = totalPrice.toLocaleString();
+        }
+
+        // مقدار اولیه
+        updateTotalPrice();
+
+        // وقتی دستی تغییر کرد
+        countInput.addEventListener("input", updateTotalPrice);
+
+        // دکمه افزایش
+        document.querySelectorAll(".increment, .increment use").forEach(btn => {
+            btn.addEventListener("click", () => {
+                countInput.value = parseInt(countInput.value) + 1;
+                updateTotalPrice();
+            });
+        });
+
+        // دکمه کاهش
+        document.querySelectorAll(".decrement, .decrement use").forEach(btn => {
+            btn.addEventListener("click", () => {
+                countInput.value = parseInt(countInput.value) - 1;
+                updateTotalPrice();
+            });
+        });
+    </script>
+} *@
+@section Scripts {
+
+
+
+    <script>
+            function AddToOrder() {
+                 console.log("AddToBasket called");
+            var ProductId = document.getElementById("ProductId").value;
+            var qty = document.getElementById("countInput").value;
+
+            var data = {
+               ProductId : ProductId,
+                qty: qty
+            };
+
+            try {
+
+                    fetch('/Order/AddToOrder', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+
+                        if (data.res == false) {
+                            Swal.fire({
+                                title: "ثبت نام",
+                                text: "شما باید در سایت لاگین کنید",
+                                icon: "question"
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "محصول به سبد خرید شما اضافه شد",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+            } catch {
+
+            }
         }
     </script>
+
+    <script src="~/js/productDetails.js" asp-append-version="true"></script>
 }

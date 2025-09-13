@@ -26,6 +26,11 @@ namespace DataAccess.Repositories.OrderRepository
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddOrdertItem(OrderItem item)
+        {
+            _context.OrderItems.Add(item);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task Delete(Order order)
         {
@@ -40,7 +45,11 @@ namespace DataAccess.Repositories.OrderRepository
             await _context.SaveChangesAsync();
         }
 
-
+        public async Task DeletePrderItem(OrderItem item)
+        {
+            _context.OrderItems.Remove(item);
+            await _context.SaveChangesAsync();
+        }
 
         public IQueryable<Order> GetAll(Expression<Func<Order, bool>> where = null)
         {
@@ -52,7 +61,16 @@ namespace DataAccess.Repositories.OrderRepository
             return orders;
         }
 
+        public IQueryable<OrderItem> GetAllOrdertItems(Expression<Func<OrderItem, bool>> where = null)
+        {
+            var baskets = _context.OrderItems.AsQueryable();
+            if (where != null)
+            {
+                baskets = baskets.Where(where);
+            }
 
+            return baskets;
+        }
 
         public async Task<Order> GetById(int id)
         {
