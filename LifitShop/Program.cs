@@ -2,6 +2,7 @@ using AspNetCoreGeneratedDocument;
 using Business.BrandServise;
 using Business.CategoryServise;
 using Business.FileUploudServise;
+using Business.OrderService;
 using Business.ProductServise;
 using Business.SMSService;
 using Business.UserService;
@@ -10,6 +11,8 @@ using DataAccess.Models;
 using DataAccess.Repositories.BrandRepository;
 using DataAccess.Repositories.Categoriesrepository;
 using DataAccess.Repositories.Categoryrepository;
+using DataAccess.Repositories.OrderItemRepository;
+using DataAccess.Repositories.OrderRepository;
 using DataAccess.Repositories.ProductRepsitory;
 using DataAccess.Repositories.UserRepository;
 using Microsoft.AspNetCore.Identity;
@@ -45,6 +48,10 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ProductServise>();
 builder.Services.AddScoped<IfileUploudServise, FileUploudServise>();
 builder.Services.AddMemoryCache();
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderItemsRepository, OrderItemsRepository>();
+builder.Services.AddScoped<OrderService>();
 
 
 builder.Services.AddIdentity<User, Role>(Options =>

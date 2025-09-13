@@ -23,7 +23,7 @@ namespace LifitShop.Controllers
 
         public async Task<IActionResult> SendLookupSMS()
         {
-            await _smsService.SendLookupSMS(phoneNumber:"09330433346", "ContactUsVerification", token1:"شهاب", token2:Generator.RandomNumber());
+            await _smsService.SendLookupSMS(phoneNumber:"09377840848", "ContactUsVerification", token1:"مهدی", token2:Generator.RandomNumber());
 
             return Redirect("/");
         }
