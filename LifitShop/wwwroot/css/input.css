@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -133,6 +133,8 @@
     @apply absolute w-24 text-center rounded-xl duration-300 text-xs bg-blue-400 dark:bg-blue-500 text-white dark:to-blue-400 after:border-t-blue-400 after:dark:border-t-blue-500 p-1.5 z-10 transition-all;
   }
 
+
+
   .tooltiptext::after {
     content: "";
     position: absolute;
@@ -144,6 +146,13 @@
     border-color: #60a5fa transparent transparent transparent;
   }
 
+}
+
+.swiper-slide {
+    margin-right: 5px; /* فاصله بین هر کارت */
+}
+.swiper-wrapper {
+    gap: 5px; /* فاصله دلخواه */
 }
 
 

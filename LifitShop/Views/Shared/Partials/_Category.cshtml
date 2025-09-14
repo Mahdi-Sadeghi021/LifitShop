@@ -1,4 +1,4 @@
-﻿<section class="mx-4 lg:container mt-20">
+﻿@* <section class="mx-4 lg:container mt-20">
     <!-- SECTION TITLE -->
     <div class="flex flex-col gap-y-4 xs:flex-row items-center justify-between w-full text-center xs:text-start">
         <div class="flex items-center gap-x-2 sm:gap-x-4">
@@ -86,5 +86,100 @@
                     ابزار آلات
                 </p>
             </a>
+    </div>
+</section> *@
+
+@* @using Business.CategoryServise
+@using DataAccess.Models
+@using DataAccess.Repositories.Categoryrepository
+@inject ICategoryRepository _categoryService
+@{
+    var categories = await _categoryService.GetAllAsync();
+}
+
+<!-- لیست دسته‌بندی‌ها -->
+
+<section class="mx-4 lg:container mt-20">
+    <!-- SECTION TITLE -->
+    <div class="flex flex-col gap-y-4 xs:flex-row items-center justify-between w-full text-center xs:text-start">
+        <div class="flex items-center gap-x-2 sm:gap-x-4">
+            <span class="size-12 hidden xs:flex rounded-lg bg-white shadow-lg dark:bg-gray-800 flex-center">
+                <svg class="size-7 text-gray-700 dark:text-gray-100">
+                    <use href="#squares"></use>
+                </svg>
+            </span>
+            <div class="space-y-1 md:space-y-1">
+                <h3 class="text-xl md:text-2xl font-MorabbaMedium text-gray-800 dark:text-gray-50">
+                    دسـته بندی
+                    هـای
+                    <span class="text-blue-600 dark:text-blue-500">محبوب</span>
+                </h3>
+                <p class="text-sm text-gray-500 dark:text-gray-300">جدیدترین و بروزترین دسته بندی ها</p>
+            </div>
+        </div>
+        <div class="w-full xs:w-auto flex justify-center items-center gap-x-2">
+            <a asp-controller="Product" asp-action="Store"
+               class="group shadow-xl text-sm md:text-base flex gap-x-1.5 items-center px-2 h-10 md:px-3 text-white bg-blue-600 rounded-xl">
+                <p>مشاهده همه</p>
+                <span class="w-7 h-7 rounded-full bg-blue-500 flex-center md:group-hover:-translate-x-1 transition-transform duration-300">
+                    <svg class="size-5">
+                        <use href="#arrow" />
+                    </svg>
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ITEMS -->
+    <div class="flex items-center justify-evenly flex-wrap mt-12 child:mb-8 gap-x-8 child:items-center child:flex-col child:duration-300 child:cursor-pointer child:gap-y-1 child:text-gray-800 dark:child:text-gray-300 child:relative">
+        @foreach (var item in categories)
+        {
+            <a asp-controller="Home" asp-action="Store" asp-route-categoryId="@item.CategoryId" class="group flex">
+                <img src="/assets/images/category/7.png"
+                     class="w-[100px] h-[100px] lg:w-[120px] lg:h-[120px] object-cover group-hover:grayscale group-hover:opacity-90 duration-300"
+                     alt="category1" />
+                <p class="pt-1 text-sm lg:text-lg line-clamp-1">
+                    @item.CategoryName
+                </p>
+            </a>
+        }
+    </div>
+</section> *@
+ @using Business.CategoryServise
+@using DataAccess.Models
+@using DataAccess.Repositories.Categoryrepository
+@inject ICategoryRepository _categoryService
+@{
+    var categories = await _categoryService.GetAllAsync();
+
+    // نگاشت CategoryId به تصویر
+    var categoryImages = new Dictionary<int, string>
+    {
+        { 2, "/assets/images/category/5.png" },   // موبایل
+        { 1002, "/assets/images/category/6.png" },   // کالای دیجیتال
+        { 3, "/assets/images/category/7.png" },   // خانه و آشپزخانه
+        { 4, "/assets/images/category/8.png" },   // آرایشی بهداشتی
+        { 5, "/assets/images/category/9.png" },   // لوازم تحریر
+        { 6, "/assets/images/category/10.png" },  // گیفت کارت
+        { 7, "/assets/images/category/11.png" }   // ابزار آلات
+    };
+}
+<section class="mx-4 lg:container mt-20">
+    <div class="flex flex-col gap-y-4 xs:flex-row items-center justify-between w-full text-center xs:text-start">
+        <h3 class="text-xl md:text-2xl font-MorabbaMedium text-gray-800 dark:text-gray-50">
+            دسـته بندی هـای <span class="text-blue-600 dark:text-blue-500">محبوب</span>
+        </h3>
+    </div>
+
+    <div class="flex flex-wrap mt-12 gap-6">
+        @foreach (var item in categories)
+        {
+            <a asp-controller="Home" asp-action="Store" asp-route-categoryId="@item.CategoryId" class="group flex flex-col items-center">
+                <img src="@(categoryImages.ContainsKey(item.CategoryId) ? categoryImages[item.CategoryId] : "/assets/images/category/default.png")"
+                     class="w-[100px] h-[100px] lg:w-[120px] lg:h-[120px] object-cover group-hover:grayscale group-hover:opacity-90 duration-300"
+                     alt="@item.CategoryName" />
+                <p class="pt-1 text-sm lg:text-lg line-clamp-1">@item.CategoryName</p>
+            </a>
+        }
     </div>
 </section>

@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -29,3 +29,23 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/*.luxury-title {
+    font-family: 'Poppins', sans-serif;*/ /* می‌تونی فونت دلخواه بزنی */
+    /*font-size: 35px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 4px;*/
+     /* صورتی لوکس */
+    /*position: relative;
+}
+
+    .luxury-title::after {
+        content: "";
+        display: block;
+        height: 6px;
+        width: 60%;*/
+/*        background: linear-gradient(90deg, #e91e63, #ff4081);
+        margin: 8px auto 0;
+        border-radius: 10px;*/
+    /*}*/

@@ -1,42 +1,43 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const countInput = document.getElementById("countInput");
+    const bookIntPrice = document.getElementById("bookIntPrice");
+    const bookShowPrice = document.getElementById("bookShowPrice");
 
+    const incrementBtn = document.querySelector("button.increment");
+    const decrementBtn = document.querySelector("button.decrement");
 
-const countInput = document.getElementById("countInput");
-const bookIntPrice = document.getElementById("bookIntPrice");
-const bookShowPrice = document.getElementById("bookShowPrice");
+    if (!countInput || !bookIntPrice || !bookShowPrice) return;
 
-function updateTotalPrice() {
-    let count = parseInt(countInput.value) || 1;
-    if (count < 1) count = 1;
-    if (count > 20) count = 20;
-    countInput.value = count;
+    function updatePrice() {
+        let count = parseInt(countInput.value) || 1;
 
-    let totalPrice = count * parseInt(bookIntPrice.value);
-    bookShowPrice.innerText = totalPrice.toLocaleString();
-}
+        if (count < 1) count = 1;
+        if (count > 20) count = 20;
 
-// مقدار اولیه
-updateTotalPrice();
+        countInput.value = count;
 
-// وقتی دستی تغییر کرد
-countInput.addEventListener("input", updateTotalPrice);
+        const totalPrice = count * parseInt(bookIntPrice.value);
+        bookShowPrice.textContent = totalPrice.toLocaleString("fa-IR") + " تومان";
+    }
 
-// دکمه افزایش
-document.querySelectorAll(".increment, .increment use").forEach(btn => {
-    btn.addEventListener("click", () => {
-        countInput.value = parseInt(countInput.value) + 1;
-        updateTotalPrice();
+    // وقتی کاربر مستقیم عدد را تغییر داد
+    countInput.addEventListener("input", updatePrice);
+
+    // دکمه +
+    incrementBtn.addEventListener("click", () => {
+        countInput.value = parseInt(countInput.value || 0) + 1;
+        updatePrice();
     });
-});
 
-// دکمه کاهش
-document.querySelectorAll(".decrement, .decrement use").forEach(btn => {
-    btn.addEventListener("click", () => {
-        countInput.value = parseInt(countInput.value) - 1;
-        updateTotalPrice();
+    // دکمه -
+    decrementBtn.addEventListener("click", () => {
+        countInput.value = parseInt(countInput.value || 1) - 1;
+        updatePrice();
     });
+
+    // مقدار اولیه
+    updatePrice();
 });
-
-
 
 //document.addEventListener("DOMContentLoaded", function () {
 //    const countInput = document.getElementById("countInput");

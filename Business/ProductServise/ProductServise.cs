@@ -11,10 +11,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Business.ProductServise
 {
-    
+
     public class ProductServise
     {
-        private readonly  IProductRepository _productRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IfileUploudServise _fileUploudservise;
         public ProductServise(IProductRepository productRepository, IfileUploudServise fileUploudservise)
         {
@@ -28,7 +28,7 @@ namespace Business.ProductServise
         }
         public async Task<IEnumerable<Products>> GetProductwithcategorybrand(Expression<Func<Products, bool>> where = null)
         {
-            return await _productRepository.GetAll(where).Include(a => a.Brand).Include(b=> b.Category).ToListAsync();
+            return await _productRepository.GetAll(where).Include(a => a.Brand).Include(b => b.Category).ToListAsync();
         }
         public async Task<Products> GetProductsById(int Id)
         {
@@ -40,18 +40,18 @@ namespace Business.ProductServise
             var products = new Products
             {
                 Description = productsDto.Description,
-               
+
                 BrandId = productsDto.BrandId,
-                
+
                 CategoryId = productsDto.CategoryId,
                 IsAvailable = productsDto.IsAvailable,
                 ProductId = productsDto.ProductId,
                 ProductPrice = productsDto.ProductPrice,
                 ProductTitle = productsDto.ProductTitle,
-                Productcreated=DateTime.Now,
+                Productcreated = DateTime.Now,
 
             };
-            products.ImageName= await _fileUploudservise.UploudFileAsync(productsDto.ImageName);
+            products.ImageName = await _fileUploudservise.UploudFileAsync(productsDto.ImageName);
             await _productRepository.Add(products);
         }
         public async Task UpdateProduct(ProductsDto productsDto)
@@ -69,11 +69,11 @@ namespace Business.ProductServise
             product.ShowHomePage = productsDto.ShowHomePage;
             product.Productcreated = DateTime.Now;
 
-            if(productsDto.ImageName != null)
+            if (productsDto.ImageName != null)
             {
                 product.ImageName = await _fileUploudservise.UploudFileAsync(productsDto.ImageName);
             }
-     
+
 
             await _productRepository.Update(product);
         }
@@ -84,7 +84,7 @@ namespace Business.ProductServise
 
         public async Task<ProductsDto> GetProductsDtoById(int Id)
         {
-            var products= await _productRepository.GetById(Id);
+            var products = await _productRepository.GetById(Id);
             var productsDto = new ProductsDto()
             {
                 Description = products.Description,
@@ -95,16 +95,16 @@ namespace Business.ProductServise
                 IsAvailable = products.IsAvailable,
                 ProductId = products.ProductId,
                 ProductPrice = products.ProductPrice,
-                ShowHomePage= products.ShowHomePage,
+                ShowHomePage = products.ShowHomePage,
                 ProductTitle = products.ProductTitle,
-                ImagggeName=products.ImageName,
-               
+                ImagggeName = products.ImageName,
+
             };
             return productsDto;
         }
 
 
-        public async Task<PagedProductDto> GetProductPageInation(int page, int pageSize, string? search, int? categoryId =null)
+        public async Task<PagedProductDto> GetProductPageInation(int page, int pageSize, string? search, int? categoryId = null, int? brandId = null)
         {
             var books = _productRepository.GetAll();
 
@@ -113,12 +113,18 @@ namespace Business.ProductServise
                 books = books.Where(a => a.ProductTitle.Contains(search) || a.Description.Contains(search));
             }
 
+            if (categoryId.HasValue)
+                books = books.Where(a => a.CategoryId == categoryId.Value);
+
+            if (brandId.HasValue)
+                books = books.Where(a => a.BrandId == brandId.Value);
+
             int TotalCount = books.Count();
             int TotalPage = (int)Math.Ceiling((double)TotalCount / pageSize);
 
 
             books = books.Skip((page - 1) * pageSize).Take(pageSize);
-            books = books.Include(a => a.Brand );
+            books = books.Include(a => a.Brand);
             books = books.Include(a => a.Category);
 
             var bookDtos = await books.Select(s => new ProductsDto()
@@ -127,9 +133,9 @@ namespace Business.ProductServise
                 ImagggeName = s.ImageName,
                 ProductPrice = s.ProductPrice,
                 BrandId = s.BrandId,
-                CategoryId=s.CategoryId,
+                CategoryId = s.CategoryId,
                 Description = s.Description,
-                
+
 
             }).ToListAsync();
 
@@ -143,5 +149,28 @@ namespace Business.ProductServise
             return result;
 
         }
+
+
+        public async Task<List<Products>> GetLatestProducts(int count = 3)
+        {
+            return await _productRepository.GetAll()
+                .OrderByDescending(p => p.Productcreated) // یا ProductId
+                .Take(count)
+                .ToListAsync();
+        }
+
+
+        public async Task<List<Products>> SearchProductsAsync(string term)
+        {
+            if (string.IsNullOrWhiteSpace(term))
+                return new List<Products>();
+
+            var query = _productRepository.GetAll()
+                           .Where(p => p.ProductTitle.Contains(term))
+                           .OrderBy(p => p.ProductTitle)
+                           .Take(10);
+            return query.ToList();
+        }
     }
+
 }
