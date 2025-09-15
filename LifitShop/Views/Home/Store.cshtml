@@ -411,7 +411,7 @@
                         </div>
 
                         <!-- product img -->
-                        <a href="/Product/Details/@item.ProductId">
+                        <a asp-action="ProductDetails" asp-controller="Product" asp-route-id="@item.ProductId">
                             <img class="product-card_img group-hover:opacity-0 absolute"
                                  src="/api/File/GetFile?filename=@item.ImagggeName" alt="@item.ProductTitle">
                             <img class="product-card_img opacity-0 group-hover:opacity-100"

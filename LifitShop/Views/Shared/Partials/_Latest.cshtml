@@ -2,8 +2,12 @@
 
 @{
     // گرفتن 3 محصول آخر (یا هر تعداد مورد نیاز)
-    var bestSelling = Model.OrderByDescending(p => p.Productcreated).Take(3).ToList();
+    var bestSelling = Model.OrderByDescending(p => p.Productcreated).Take(4).ToList();
 }
+
+
+
+
 
 <section class="mx-4 lg:container mt-20">
     <div class="flex flex-col gap-y-4 xs:flex-row items-center justify-between w-full text-center xs:text-start">
@@ -33,7 +37,7 @@
                     </svg>
                 </button>
             </div>
-            <a asp-action="Store" asp-controller="Product"
+            <a asp-action="Store" asp-controller="Home"
                class="group shadow-xl text-sm md:text-base flex gap-x-1.5 items-center px-2 h-10 md:px-3 text-white bg-blue-600 rounded-xl">
                 <p>مشاهده همه</p>
                 <span class="w-7 h-7 rounded-full bg-blue-500 flex-center md:group-hover:-translate-x-1 transition-transform duration-300">
@@ -53,7 +57,7 @@
                 <!-- کارت اول: مشاهده همه -->
                 <div class="swiper-slide amazing-card">
                     <img class="w-28 h-28" src="/assets/images/slider/Amazings.svg" alt="">
-                    <a href="/Store" class="flex items-center gap-x-.5 text-gray-100 cursor-pointer mt-2">
+                    <a asp-controller="Home" asp-action="Store" class="flex items-center gap-x-.5 text-gray-100 cursor-pointer mt-2">
                         <p>مشاهده همه</p>
                         <svg class="size-4 rotate-90">
                             <use href="#chevron"></use>
@@ -77,22 +81,34 @@
                             </span>
                         </div>
 
-                        <!-- product img -->
-                        <a asp-action="ProductDetails" asp-controller="Product" asp-route-id="@item.ProductId">
-                            <img src="/api/File/GetFile?filename=@item.ImageName" width="60px" height="60px" />
+                     
+                        <a asp-action="ProductDetails" asp-controller="Product" asp-route-id="@item.ProductId"
+                           class="inline-block w-20 h-20">
+                            <!-- w-20 = 80px, h-20 = 80px -->
+                            <img src="/api/File/GetFile?filename=@item.ImageName"
+                                 alt="@item.ProductTitle"
+                                 class="w-full h-full object-contain rounded-md" />
                         </a>
 
                         <!-- product footer -->
+                        <!-- product footer -->
                         <div class="space-y-2">
+                            <!-- نام محصول -->
                             <a asp-action="ProductDetails" asp-controller="Product" asp-route-id="@item.ProductId" class="small-card_link">
                                 @item.ProductTitle
                             </a>
+
+                            <!-- برند محصول -->
+                          
+                            
+                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                                    برند: <span class="text-gray-800 dark:text-gray-100">@item.Brand.BrandName</span>
+                                </p>
+                            
+
+                            <!-- قیمت محصول -->
                             <div class="product-card_price-wrapper">
                                 <div class="small-card_price justify-between">
-                                    @* @if (item.DiscountPercent > 0)
-                                    {
-                                        <span class="pt-1">@item.DiscountPercent%</span>
-                                    } *@
                                     <h4 class="flex items-center gap-x-1 text-lg">
                                         @item.ProductPrice
                                         <p class="text-xs font-DanaMedium">تومان</p>
@@ -100,14 +116,12 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 }
 
                 <!-- کارت آخر: مشاهده همه -->
-                <a href="/Store" class="swiper-slide amazing-card_last">
-                    <svg class="size-10"><use href="#arrow-left-circle"></use></svg>
-                    <h2>مشاهده همه</h2>
-                </a>
+             
             </div>
         </div>
 
@@ -119,7 +133,7 @@
             <svg class="size-6 rotate-90"><use href="#chevron" /></svg>
         </button>
     </div>
-</section>
+</section> 
 
 @section Scripts {
     <script>
